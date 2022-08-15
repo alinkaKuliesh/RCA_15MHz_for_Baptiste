@@ -15,7 +15,7 @@ elseif run_param.maroilles_gpu
 elseif run_param.dhpc
     addpath(genpath("/scratch/akuliesh1/Matlab_Toolboxes"));
     run_param.DATA_PATH = '/scratch/akuliesh1/MIS_opt_fullRT/job';
-    run_param.DATA_CAST = 'gpuArray-single';
+    run_param.DATA_CAST = 'single';
 else
     run_param.DATA_CAST = 'single';
 end
