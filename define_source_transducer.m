@@ -81,7 +81,7 @@ title('Transmit Pressure after Apodization');
 %% repeat along y direction voxels
 temporaryp = repelem(temporaryp, transducer.element_width, 1);
 
-apod_winZ = getWin(transducer.element_length, 'Tukey', 'Param', 0.2, 'Plot', false).'; % 0 Rectangular window; 1 Hann window
+apod_winZ = getWin(transducer.element_length, 'Tukey', 'Param', 0.5, 'Plot', true).'; % 0 Rectangular window; 1 Hann window
 
 %% repeat along z direction voxels
 num_voxels = transducer.num_elements * transducer.element_width; % number of voxels in transducer in longitudial direction
