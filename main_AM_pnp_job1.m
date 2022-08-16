@@ -3,6 +3,7 @@ function [] = main_AM_pnp_job1()
 run_param.hpc = false; % run on HPC gpu
 run_param.dhpc = true; % run on DHPC gpu
 run_param.maroilles_gpu = false; % run on Twente gpu
+run_param.record_movie = false;
 run_param = sim_setup(run_param);
 
 CFL = 0.3;

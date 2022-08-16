@@ -18,8 +18,8 @@
 
 function source = define_source_transducer(kgrid, margin, transducer, pulse, rho, speed_of_sound, medium)
 %% flags for apodization
-apodization_Z = true;
-apodization_Y = true;
+apodization_Z = false;
+apodization_Y = false;
 
 %% Define the mask
 x_offset = margin;
