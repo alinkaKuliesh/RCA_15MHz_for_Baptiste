@@ -1,8 +1,8 @@
 function [] = main_AM_pnp_job1()
 % simulation settings
 run_param.hpc = false; % run on HPC gpu
-run_param.dhpc = false; % run on DHPC gpu
-run_param.maroilles_gpu = true; % run on Twente gpu
+run_param.dhpc = true; % run on DHPC gpu
+run_param.maroilles_gpu = false; % run on Twente gpu
 run_param = sim_setup(run_param);
 
 CFL = 0.3;
