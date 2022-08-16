@@ -21,8 +21,8 @@ transducer = define_transducer(grid_size);
 
 % pulse settings
 pulse = define_pulse(pulse, transducer, grid_size, speed_of_sound);
-% sequence = {'left' 'right' 'both'};
-sequence = {'both'};
+sequence = {'left' 'right' 'both'};
+% sequence = {'both'};
 speckle = false;
  
 [kgrid, margin, PML] = define_grid(grid_size, pulse, transducer);
