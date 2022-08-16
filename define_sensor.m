@@ -33,9 +33,9 @@ switch type
         center.y = kgrid.Ny/2 + 1;
         center.z = kgrid.Nz/2 + 1; 
         sensor.mask(center.x, center.y, center.z) = 1;
-        sensor.mask (center.x, center.y, center.z-100) = 1;
-        sensor.mask (center.x-100, center.y, center.z-100) = 1;
-        sensor.mask(center.x+100, center.y, center.z) = 1;
+        sensor.mask (center.x, center.y, center.z-120) = 1;
+        sensor.mask (center.x-200, center.y, center.z-120) = 1;
+        sensor.mask(center.x+120, center.y, center.z) = 1;
         sensor.record={'p'};
 end
 

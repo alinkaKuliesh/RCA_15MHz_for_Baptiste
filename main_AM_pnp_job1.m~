@@ -3,6 +3,7 @@ function [] = main_AM_pnp_job1()
 run_param.hpc = false; % run on HPC gpu
 run_param.dhpc = true; % run on DHPC gpu
 run_param.maroilles_gpu = false; % run on Twente gpu
+run_param.record_movie = false;
 run_param = sim_setup(run_param);
 
 CFL = 0.3;
@@ -48,7 +49,7 @@ for seq_idx = 1 : length(sequence)
     source = define_source_transducer(kgrid, margin, ...
         transducer, pulse, rho, speed_of_sound, medium);
     
-%     estim_time_mem(kgrid, PML, source, CFL, c_max, t_end); 
+    estim_time_mem(kgrid, PML, source, CFL, c_max, t_end); 
     
     sensor_data = run_simulation(run_param, PML, kgrid, ...
         medium, source, sensor);
@@ -59,7 +60,7 @@ file_name = strcat('sound_sheet.mat');
 
 dx = kgrid.dx;
 
-save(file_name, 'transducer', 'dx', 'sensor_data');
+save(file_name, 'transducer', 'dx', 'sensor_data', );
 end
     
 

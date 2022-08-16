@@ -59,8 +59,9 @@ end
 file_name = strcat('sound_sheet.mat');
 
 dx = kgrid.dx;
+dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
 
-save(file_name, 'transducer', 'dx', 'sensor_data');
+save(file_name, 'transducer', 'dx', 'sensor_data', 'sensor', 'dims');
 end
     
 
