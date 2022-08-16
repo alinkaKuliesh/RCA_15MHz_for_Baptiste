@@ -53,6 +53,7 @@ for seq_idx = 1 : length(sequence)
     
     sensor_data = run_simulation(run_param, PML, kgrid, ...
         medium, source, sensor);
+    pressure{seq_idx} = sensor_data.p;
 end
 
 % save the workspace variables to the file
@@ -61,7 +62,7 @@ file_name = strcat('sound_sheet.mat');
 dx = kgrid.dx;
 dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
 
-save(file_name, 'transducer', 'dx', 'sensor_data', 'sensor', 'dims');
+save(file_name, 'transducer', 'dx', 'pressure', 'sensor', 'dims');
 end
     
 
