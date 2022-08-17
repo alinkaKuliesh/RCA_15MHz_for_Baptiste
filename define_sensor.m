@@ -19,7 +19,7 @@ function sensor = define_sensor(kgrid, margin, transducer)
 x_offset = margin;
 
 sensor.mask = zeros(kgrid.Nx, kgrid.Ny, kgrid.Nz);
-type = 'individual';
+type = 'sheet';
 
 switch type
     case 'sheet'     
@@ -27,7 +27,7 @@ switch type
         start_index_z = kgrid.Nz/2 - round(transducer.element_length/2) + 1;
         sensor.mask(x_offset:end, index_y, ...
             start_index_z:start_index_z+transducer.element_length-1) = 1;
-        sensor.record={'p'};
+        sensor.record={'p_max'};
     case 'individual'
         center.x = kgrid.Nx/2 + 1;
         center.y = kgrid.Ny/2 + 1;

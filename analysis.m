@@ -1,4 +1,4 @@
-load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_apod_lat_02_el_05.mat')
+load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_no_apod.mat')
 
 p_max = reshape(sensor_data.p_max, [], transducer.element_length);
 

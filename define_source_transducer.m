@@ -18,7 +18,7 @@
 
 function [source, pulse_length] = define_source_transducer(kgrid, margin, transducer, pulse, rho, speed_of_sound, medium)
 %% flags for apodization
-apodization_Z = true;
+apodization_Z = false;
 apodization_Y = true;
 
 %% Define the mask
@@ -33,9 +33,16 @@ source.u_mask(x_offset, start_index_y:start_index_y + transducer.size_y - 1,...
   
 %% Define the signal
 fs = 1 / kgrid.dt; % [Hz]
-tri_level_signal = define_tri_level_drive_signal(pulse.num_cycles, pulse.center_freq, fs);
-IR = approx_IR(transducer.passband, fs); % impulse response  
-signal = conv(tri_level_signal, IR)';
+pulse_type = 'theoretical';
+switch pulse_type
+    case 'theoretical'
+        signal = toneBurst(fs, pulse.center_freq, pulse.num_cycles, 'Envelope', 'Gaussian');     
+    case 'experimental'
+        tri_level_signal = define_tri_level_drive_signal(pulse.num_cycles, pulse.center_freq, fs);
+        IR = approx_IR(transducer.passband, fs); % impulse response  
+        signal = conv(tri_level_signal, IR)';
+end
+
 signal_filt = filterTimeSeries(kgrid, medium, signal, 'ZeroPhase', true, 'PPW', 2);
 pulse_length = length(signal_filt);
 
