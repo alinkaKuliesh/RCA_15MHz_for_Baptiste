@@ -33,8 +33,8 @@ source.u_mask(x_offset, start_index_y:start_index_y + transducer.size_y - 1,...
   
 %% Define the signal
 fs = 1 / kgrid.dt; % [Hz]
-pulse_type = 'theoretical';
-switch pulse_type
+
+switch pulse.type
     case 'theoretical'
         signal = toneBurst(fs, pulse.center_freq, pulse.num_cycles, 'Envelope', 'Gaussian');     
     case 'experimental'
@@ -43,7 +43,8 @@ switch pulse_type
         signal = conv(tri_level_signal, IR)';
 end
 
-signal_filt = filterTimeSeries(kgrid, medium, signal, 'ZeroPhase', true, 'PPW', 2);
+signal_filt = signal;
+% signal_filt = filterTimeSeries(kgrid, medium, signal, 'ZeroPhase', true, 'PPW', 2);
 pulse_length = length(signal_filt);
 
 % scale to desired pnp
@@ -67,7 +68,7 @@ if isfield(pulse, 'elements')
 end
 
 figure()
-plot(1:length(temporaryp(1,:)), temporaryp(floor(transducer.num_elements/2),:))
+plot(1:length(temporaryp(1,:)), temporaryp(1,:))
 xlabel('sampling points')
 ylabel('pressure [Pa]')
 title('Pulse Shape')

@@ -14,12 +14,11 @@
 % 
 %
 % =========================================================================
-function sensor = define_sensor(kgrid, margin, transducer)
+function sensor = define_sensor(kgrid, margin, transducer, type)
 % Transducer mask 
 x_offset = margin;
 
 sensor.mask = zeros(kgrid.Nx, kgrid.Ny, kgrid.Nz);
-type = 'sheet';
 
 switch type
     case 'sheet'     

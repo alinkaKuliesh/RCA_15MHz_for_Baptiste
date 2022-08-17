@@ -21,8 +21,6 @@ transducer = define_transducer(grid_size);
 
 % pulse settings
 pulse = define_pulse(pulse, transducer, grid_size, speed_of_sound);
-sequence = {'left' 'right' 'both'};
-% sequence = {'both'};
 speckle = false;
  
 [kgrid, margin, PML] = define_grid(grid_size, pulse, transducer);
@@ -39,8 +37,15 @@ max_trans_dist = transducer.pitch * transducer.num_elements / 2 * kgrid.dx / sin
 t_end = (max_trans_dist + 2 * pulse.length) / speed_of_sound; % [s]
 
 % define sensor
-sensor = define_sensor(kgrid, margin, transducer);
+sensor_type = 'sheet';
+sensor = define_sensor(kgrid, margin, transducer, sensor_type);
 kgrid.t_array = makeTime(kgrid, medium.sound_speed, CFL, t_end);
+
+if strcmp(sensor_type, 'individual')   
+    sequence = {'left' 'right' 'both'};
+elseif strcmp(sensor_type, 'sheet')
+    sequence = {'both'};
+end
 
 for seq_idx = 1 : length(sequence)
     % create the time array
@@ -53,17 +58,23 @@ for seq_idx = 1 : length(sequence)
     
     sensor_data = run_simulation(run_param, PML, kgrid, ...
         medium, source, sensor);
-    pressure{seq_idx} = sensor_data.p;
+    if strcmp(sensor_type, 'individual')
+        pressure{seq_idx} = sensor_data.p;
+    end
 end
 
 % save the workspace variables to the file
-file_name = strcat('sound_sheet.mat');
 
 dx = kgrid.dx;
 dt = kgrid.dt;
 dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
-
-save(file_name, 'transducer', 'dx', 'dt', 'pressure', 'sensor', 'pulse_length', 'dims');
+if strcmp(sensor_type, 'individual')
+    file_name = strcat('individual_sensors.mat');
+    save(file_name, 'transducer', 'dx', 'dt', 'pressure', 'sensor', 'pulse_length', 'dims');
+elseif strcmp(sensor_type, 'sheet')
+    file_name = strcat('sound_sheet.mat');
+    save(file_name, 'transducer', 'dx', 'sensor_data', 'dims');
+end
 end
     
 
