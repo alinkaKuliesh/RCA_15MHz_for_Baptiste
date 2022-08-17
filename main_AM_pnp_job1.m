@@ -46,7 +46,7 @@ for seq_idx = 1 : length(sequence)
     % create the time array
     pulse.elements = sequence{seq_idx};
     % define the source transducer
-    source = define_source_transducer(kgrid, margin, ...
+    [source, pulse_length] = define_source_transducer(kgrid, margin, ...
         transducer, pulse, rho, speed_of_sound, medium);
     
     estim_time_mem(kgrid, PML, source, CFL, c_max, t_end); 
@@ -60,9 +60,10 @@ end
 file_name = strcat('sound_sheet.mat');
 
 dx = kgrid.dx;
+dt = kgrid.dt;
 dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
 
-save(file_name, 'transducer', 'dx', 'pressure', 'sensor', 'dims');
+save(file_name, 'transducer', 'dx', 'dt', 'pressure', 'sensor', 'pulse_length', 'dims');
 end
     
 

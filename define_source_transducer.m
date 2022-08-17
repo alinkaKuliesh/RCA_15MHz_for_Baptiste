@@ -16,7 +16,7 @@
 %
 % =========================================================================
 
-function source = define_source_transducer(kgrid, margin, transducer, pulse, rho, speed_of_sound, medium)
+function [source, pulse_length] = define_source_transducer(kgrid, margin, transducer, pulse, rho, speed_of_sound, medium)
 %% flags for apodization
 apodization_Z = true;
 apodization_Y = true;
@@ -37,6 +37,7 @@ tri_level_signal = define_tri_level_drive_signal(pulse.num_cycles, pulse.center_
 IR = approx_IR(transducer.passband, fs); % impulse response  
 signal = conv(tri_level_signal, IR)';
 signal_filt = filterTimeSeries(kgrid, medium, signal, 'ZeroPhase', true, 'PPW', 2);
+pulse_length = length(signal_filt);
 
 % scale to desired pnp
 scale_coeff = pulse.pnp / max(signal_filt);
