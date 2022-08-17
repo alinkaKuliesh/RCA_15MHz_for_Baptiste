@@ -17,5 +17,4 @@ elseif run_param.dhpc
 else
     run_param.DATA_CAST = 'single';
 end
-
 end

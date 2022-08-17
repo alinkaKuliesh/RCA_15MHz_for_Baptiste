@@ -18,8 +18,7 @@
 
 function [source, pulse_length] = define_source_transducer(kgrid, margin, transducer, pulse, rho, speed_of_sound, medium)
 %% flags for apodization
-apodization_Z = false;
-apodization_Y = true;
+apodization_Y = false;
 
 %% Define the mask
 x_offset = margin;
@@ -68,7 +67,7 @@ if isfield(pulse, 'elements')
 end
 
 figure()
-plot(1:length(temporaryp(1,:)), temporaryp(1,:))
+plot([0:length(temporaryp(1,:))-1]*kgrid.dt, temporaryp(1,:))
 xlabel('sampling points')
 ylabel('pressure [Pa]')
 title('Pulse Shape')
@@ -90,18 +89,12 @@ title('Transmit Pressure after Apodization');
 %% repeat along y direction voxels
 temporaryp = repelem(temporaryp, transducer.element_width, 1);
 
-apod_winZ = getWin(transducer.element_length, 'Tukey', 'Param', 0.5, 'Plot', true).'; % 0 Rectangular window; 1 Hann window
-
 %% repeat along z direction voxels
 num_voxels = transducer.num_elements * transducer.element_width; % number of voxels in transducer in longitudial direction
 
 %repeat along z direction
 for i = 1 : transducer.element_length
-    if apodization_Z
-        source.ux(num_voxels*(i-1)+1:num_voxels*(i-1)+num_voxels,:) = temporaryp / rho / speed_of_sound * apod_winZ(i); 
-    else
         source.ux(num_voxels*(i-1)+1:num_voxels*(i-1)+num_voxels,:) = temporaryp / rho / speed_of_sound;
-    end
 end
 
 end

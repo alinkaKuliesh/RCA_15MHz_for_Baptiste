@@ -73,7 +73,7 @@ if strcmp(sensor_type, 'individual')
     save(file_name, 'transducer', 'dx', 'dt', 'pressure', 'sensor', 'pulse_length', 'dims');
 elseif strcmp(sensor_type, 'sheet')
     file_name = strcat('sound_sheet.mat');
-    save(file_name, 'transducer', 'dx', 'sensor_data', 'dims');
+    save(file_name, 'transducer', 'dx', 'sensor_data');
 end
 end
     
