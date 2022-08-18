@@ -1,5 +1,5 @@
 clear all
-load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_apod_lat_02.mat')
+load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_no_apod.mat')
 
 p_max = reshape(sensor_data.p_max, [], transducer.element_length);
 
@@ -9,7 +9,7 @@ z = z - z(end/2);
 
 figure()
 imagesc(z*1e3, x*1e3, p_max); hold on
-
+axis image
 colorbar 
 xlabel('elevation [mm]')
 ylabel('axial [mm]')

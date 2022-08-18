@@ -5,7 +5,7 @@ pulse.num_cycles = 3;
 pulse.wave_length = speed_of_sound / pulse.center_freq;
 pulse.length = pulse.num_cycles * pulse.wave_length; % [m]
 pulse.pnp = 200e3; %  [Pa]
-pulse.angle = 16; % [deg]
+pulse.angle = 21; % [deg]
 element_spacing = transducer.pitch * grid_size; % [m]
 % define transducer element delays 
 element_index = 0:transducer.num_elements/2-1;    

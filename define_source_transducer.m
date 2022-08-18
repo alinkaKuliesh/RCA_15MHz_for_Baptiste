@@ -18,7 +18,7 @@
 
 function [source, pulse_length] = define_source_transducer(kgrid, margin, transducer, pulse, rho, speed_of_sound, medium)
 %% flags for apodization
-apodization_Y = false;
+apodization_Y = true;
 
 %% Define the mask
 x_offset = margin;
@@ -73,7 +73,7 @@ ylabel('pressure [Pa]')
 title('Pulse Shape')
 
 %% Apodization 
-apod_winY = getWin(size(temporaryp, 1)/2, 'Tukey', 'Param', 0.2, 'Plot', true).'; % 0 Rectangular window; 1 Hann window
+apod_winY = getWin(size(temporaryp, 1)/2, 'Tukey', 'Param', 0.2, 'Plot', false).'; % 0 Rectangular window; 1 Hann window
 apod_winY = repmat(apod_winY, 1, 2);       
 
 if apodization_Y

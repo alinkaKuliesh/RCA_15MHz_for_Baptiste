@@ -67,13 +67,14 @@ end
 
 dx = kgrid.dx;
 dt = kgrid.dt;
+Nt = kgrid.Nt;
 dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
 if strcmp(sensor_type, 'individual')
     file_name = strcat('individual_sensors.mat');
     save(file_name, 'transducer', 'dx', 'dt', 'pressure', 'sensor', 'pulse_length', 'dims');
 elseif strcmp(sensor_type, 'sheet')
     file_name = strcat('sound_sheet.mat');
-    save(file_name, 'transducer', 'dx', 'sensor_data');
+    save(file_name, 'transducer', 'dx', 'sensor_data', 'dt', 'Nt');
 end
 end
     
