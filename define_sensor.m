@@ -14,27 +14,21 @@
 % 
 %
 % =========================================================================
-function sensor = define_sensor(kgrid, margin, transducer, type)
+function sensor = define_sensor(kgrid, margin, transducer, measure)
 % Transducer mask 
 x_offset = margin;
 
 sensor.mask = zeros(kgrid.Nx, kgrid.Ny, kgrid.Nz);
 
-switch type
-    case 'sheet'     
-        index_y = kgrid.Ny/2 + 1;
-        start_index_z = kgrid.Nz/2 - round(transducer.element_length/2) + 1;
-        sensor.mask(x_offset:end, index_y, ...
-            start_index_z:start_index_z+transducer.element_length-1) = 1;
-        sensor.record={'p'};
-    case 'individual'
-        center.x = kgrid.Nx/2 + 1;
-        center.y = kgrid.Ny/2 + 1;
-        center.z = kgrid.Nz/2 + 1; 
-        sensor.mask(center.x, center.y, center.z) = 1;
-        sensor.mask (center.x, center.y, center.z-120) = 1;
-        sensor.mask (center.x-200, center.y, center.z-120) = 1;
-        sensor.mask(center.x+120, center.y, center.z) = 1;
+index_y = kgrid.Ny/2 + 1;
+start_index_z = kgrid.Nz/2 - round(transducer.element_length/2) + 1;
+sensor.mask(x_offset:end, index_y, ...
+    start_index_z:start_index_z+transducer.element_length-1) = 1;
+
+switch measure
+    case 'xWave'     
+        sensor.record={'p_max'};
+    case 'xAM'
         sensor.record={'p'};
 end
 
