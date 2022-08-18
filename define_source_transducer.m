@@ -95,11 +95,11 @@ temporaryp = [temporaryp(1:end/2, :);...
         zeros(1, size(temporaryp, 2));...
         temporaryp(end/2+1:end, :)];
 %% repeat along z direction voxels
-num_voxels = transducer.num_elements * transducer.element_width; % number of voxels in transducer in longitudial direction
+num_voxels = transducer.size_y + 1; % number of voxels in transducer in longitudial direction
 
 %repeat along z direction
 for i = 1 : transducer.element_length
-        source.ux(num_voxels*(i-1)+1:num_voxels*(i-1)+num_voxels,:) = temporaryp / rho / speed_of_sound;
+    source.ux(num_voxels*(i-1)+1:num_voxels*(i-1)+num_voxels,:) = temporaryp / rho / speed_of_sound;
 end
 
 end
