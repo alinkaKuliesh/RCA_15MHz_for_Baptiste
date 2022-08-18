@@ -27,7 +27,8 @@ source.u_mask = zeros(kgrid.Nx, kgrid.Ny, kgrid.Nz);
 start_index_y = kgrid.Ny/2 - round(transducer.size_y/2) + 1;
 start_index_z = kgrid.Nz/2 - round(transducer.element_length/2) + 1;
 
-source.u_mask(x_offset, start_index_y:start_index_y + transducer.size_y - 1,...
+% with 1 extra element between appertures
+source.u_mask(x_offset, start_index_y:start_index_y + transducer.size_y,...
     start_index_z:start_index_z+transducer.element_length-1) = 1;    
   
 %% Define the signal
@@ -88,7 +89,11 @@ title('Transmit Pressure after Apodization');
 
 %% repeat along y direction voxels
 temporaryp = repelem(temporaryp, transducer.element_width, 1);
-
+ 
+% add a voxel between subapertures
+temporaryp = [temporaryp(1:end/2, :);...
+        zeros(1, size(temporaryp, 2));...
+        temporaryp(end/2+1:end, :)];
 %% repeat along z direction voxels
 num_voxels = transducer.num_elements * transducer.element_width; % number of voxels in transducer in longitudial direction
 

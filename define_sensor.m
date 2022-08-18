@@ -20,10 +20,14 @@ x_offset = margin;
 
 sensor.mask = zeros(kgrid.Nx, kgrid.Ny, kgrid.Nz);
 
-index_y = kgrid.Ny/2 + 1;
+index_y = kgrid.Ny/2 - round(transducer.size_y/2) + 1 + transducer.size_y/2;
 start_index_z = kgrid.Nz/2 - round(transducer.element_length/2) + 1;
+% sensor.mask(x_offset:end, index_y, ...
+%     start_index_z:start_index_z+transducer.element_length-1) = 1;
+
 sensor.mask(x_offset:end, index_y, ...
-    start_index_z:start_index_z+transducer.element_length-1) = 1;
+    kgrid.Nz/2) = 1;
+
 
 switch measure
     case 'xWave'     
