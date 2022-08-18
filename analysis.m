@@ -1,5 +1,5 @@
 clear all
-measure = 'xAM';
+measure = 'xWave';
 load(strcat('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/', measure, '.mat'))
 %%
 switch measure
@@ -11,7 +11,7 @@ switch measure
         p_peak_nl = max(p_nl, [], 3);
         p = p_peak_nl;
     case 'xWave'
-        p = reshape(sensor_data.p_max, [], transducer.element_length);
+        p = reshape(recorded_data{1}.p_max, [], transducer.element_length);
 end
 
 x = [0:size(p, 1)-1] * dx;

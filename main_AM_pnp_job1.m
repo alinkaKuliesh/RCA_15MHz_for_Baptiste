@@ -37,7 +37,7 @@ max_trans_dist = transducer.pitch * transducer.num_elements / 2 * kgrid.dx / sin
 t_end = (max_trans_dist + 2 * pulse.length) / speed_of_sound; % [s]
 
 % define sensor
-measure = 'xWave';
+measure = 'xAM';
 sensor = define_sensor(kgrid, margin, transducer, measure);
 kgrid.t_array = makeTime(kgrid, medium.sound_speed, CFL, t_end);
 
