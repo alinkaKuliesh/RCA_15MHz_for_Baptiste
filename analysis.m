@@ -1,5 +1,5 @@
 clear all
-load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_no_apod.mat')
+load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/xAM.mat')
 
 p_max = reshape(sensor_data.p_max, [], transducer.element_length);
 

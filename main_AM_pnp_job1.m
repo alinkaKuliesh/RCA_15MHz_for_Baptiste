@@ -70,7 +70,7 @@ Nt = kgrid.Nt;
 dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
 
 file_name = [measure '.mat'];
-save(file_name, 'transducer', 'dx', 'dt', 'Nt', 'pulse_length', 'dims', 'recorded_data');
+save(file_name, 'transducer', 'dx', 'dt', 'Nt', 'pulse_length', 'dims', 'recorded_data', '-v7.3');
 end
     
 
