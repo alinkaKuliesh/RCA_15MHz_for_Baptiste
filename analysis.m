@@ -1,18 +1,7 @@
 clear all
-measure = 'xWave';
+measure = 'xAM';
 load(strcat('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/', measure, '.mat'))
 %%
-switch measure
-    case 'xAM'
-        for i = 1 : size(recorded_data, 2)
-            p_seq(i, :, :, :) = reshape(recorded_data{i}.p, [], transducer.element_length, Nt);
-        end
-        p_nl = squeeze(p_seq(3, :, :, :) - p_seq(2, :, :, :) - p_seq(1, :, :, :));
-        p_peak_nl = max(p_nl, [], 3);
-        p = p_peak_nl;
-    case 'xWave'
-        p = reshape(recorded_data{1}.p_max, [], transducer.element_length);
-end
 
 x = [0:size(p, 1)-1] * dx;
 z = [0:size(p, 2)-1] * dx;
@@ -24,7 +13,7 @@ axis image
 colorbar 
 xlabel('elevation [mm]')
 ylabel('axial [mm]')
-title('peak positive pressure')
+title('peak nonlinear pressure')
 
 %%
 load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_apod_lat_02_el_05_sensors.mat')

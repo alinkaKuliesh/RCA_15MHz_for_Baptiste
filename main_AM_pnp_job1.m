@@ -37,13 +37,13 @@ max_trans_dist = transducer.pitch * transducer.num_elements / 2 * kgrid.dx / sin
 t_end = (max_trans_dist + 2 * pulse.length) / speed_of_sound; % [s]
 
 % define sensor
-measure = 'xAM';
+measure = 'xWave_orthogonal';
 sensor = define_sensor(kgrid, margin, transducer, measure);
 kgrid.t_array = makeTime(kgrid, medium.sound_speed, CFL, t_end);
 
 if strcmp(measure, 'xAM')   
     sequence = {'left' 'right' 'both'};
-elseif strcmp(measure, 'xWave')
+elseif strcmp(measure, 'xWave') || strcmp(measure, 'xWave_orthogonal')
     sequence = {'both'};
 end
 
@@ -62,15 +62,29 @@ for seq_idx = 1 : length(sequence)
     recorded_data{seq_idx} = sensor_data;
 end
 
-% save the workspace variables to the file
-
 dx = kgrid.dx;
 dt = kgrid.dt;
 Nt = kgrid.Nt;
 dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
 
+switch measure
+    case 'xAM'
+        for i = 1 : size(recorded_data, 2)
+            p_seq(i, :, :, :) = reshape(recorded_data{i}.p, [], transducer.element_length, Nt);
+        end
+        p_nl = squeeze(p_seq(3, :, :, :) - p_seq(2, :, :, :) - p_seq(1, :, :, :));
+        p_peak_nl = max(p_nl, [], 3);
+        p = p_peak_nl;
+    case 'xWave'
+        p = reshape(recorded_data{1}.p_max, [], transducer.element_length);
+    case 'xWave_orthogonal'
+        p = reshape(recorded_data{1}.p_max, [], transducer.size_y + 1);
+end
+
+% save the workspace variables to the file
 file_name = [measure '.mat'];
-save(file_name, 'transducer', 'dx', 'dt', 'Nt', 'pulse_length', 'dims', 'recorded_data', '-v7.3');
+save(file_name, 'transducer', 'dx', 'dt', 'Nt', 'pulse_length', 'dims', 'p');
+
 end
     
 

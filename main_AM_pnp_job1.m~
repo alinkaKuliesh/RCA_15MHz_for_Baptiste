@@ -21,8 +21,6 @@ transducer = define_transducer(grid_size);
 
 % pulse settings
 pulse = define_pulse(pulse, transducer, grid_size, speed_of_sound);
-% sequence = {'left' 'right' 'both'};
-sequence = {'both'};
 speckle = false;
  
 [kgrid, margin, PML] = define_grid(grid_size, pulse, transducer);
@@ -39,28 +37,54 @@ max_trans_dist = transducer.pitch * transducer.num_elements / 2 * kgrid.dx / sin
 t_end = (max_trans_dist + 2 * pulse.length) / speed_of_sound; % [s]
 
 % define sensor
-sensor = define_sensor(kgrid, margin, transducer);
+measure = 'xWave_orthogonal';
+sensor = define_sensor(kgrid, margin, transducer, measure);
 kgrid.t_array = makeTime(kgrid, medium.sound_speed, CFL, t_end);
+
+if strcmp(measure, 'xAM')   
+    sequence = {'left' 'right' 'both'};
+elseif strcmp(measure, 'xWave') || strcmp(measure, 'xWave_orthogonal')
+    sequence = {'both'};
+end
 
 for seq_idx = 1 : length(sequence)
     % create the time array
     pulse.elements = sequence{seq_idx};
     % define the source transducer
-    source = define_source_transducer(kgrid, margin, ...
+    [source, pulse_length] = define_source_transducer(kgrid, margin, ...
         transducer, pulse, rho, speed_of_sound, medium);
     
     estim_time_mem(kgrid, PML, source, CFL, c_max, t_end); 
     
     sensor_data = run_simulation(run_param, PML, kgrid, ...
         medium, source, sensor);
+    
+    recorded_data{seq_idx} = sensor_data;
+end
+
+dx = kgrid.dx;
+dt = kgrid.dt;
+Nt = kgrid.Nt;
+dims = [kgrid.Nx kgrid.Ny kgrid.Nz];
+
+switch measure
+    case 'xAM'
+        for i = 1 : size(recorded_data, 2)
+            p_seq(i, :, :, :) = reshape(recorded_data{i}.p, [], transducer.element_length, Nt);
+        end
+        p_nl = squeeze(p_seq(3, :, :, :) - p_seq(2, :, :, :) - p_seq(1, :, :, :));
+        p_peak_nl = max(p_nl, [], 3);
+        p = p_peak_nl;
+    case 'xWave'
+        p = reshape(recorded_data{1}.p_max, [], transducer.element_length);
+    case 'xWave_orthogonal'
+        p = reshape(recorded_data{1}.p_max, transducer.element_length);
 end
 
 % save the workspace variables to the file
-file_name = strcat('sound_sheet.mat');
+file_name = [measure '.mat'];
+save(file_name, 'transducer', 'dx', 'dt', 'Nt', 'pulse_length', 'dims', 'p');
 
-dx = kgrid.dx;
-
-save(file_name, 'transducer', 'dx', 'sensor_data', );
 end
     
 
