@@ -5,15 +5,15 @@ load(strcat('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/', measure, '.mat')
 
 x = [0:size(p, 1)-1] * dx;
 z = [0:size(p, 2)-1] * dx;
-z = z - z(end/2);
+z = z - z(floor(end/2));
 
 figure()
 imagesc(z*1e3, x*1e3, p); hold on
 axis image
 colorbar 
-xlabel('elevation [mm]')
+xlabel('longitudinal [mm]')
 ylabel('axial [mm]')
-title('peak nonlinear pressure')
+title('peak positive pressure')
 
 %%
 load('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/sound_sheet_apod_lat_02_el_05_sensors.mat')

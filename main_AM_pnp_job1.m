@@ -34,7 +34,7 @@ c_max = max(medium.sound_speed(:));
 max_trans_dist = transducer.pitch * transducer.num_elements / 2 * kgrid.dx / sind(pulse.angle);    
 
 % define simulation time for 1 & 3 iterations
-t_end = (max_trans_dist + 2 * pulse.length) / speed_of_sound; % [s]
+t_end = (max_trans_dist + 2 * pulse.length) / speed_of_sound + max(pulse.delays); % [s]
 
 % define sensor
 measure = 'xWave_orthogonal';
