@@ -36,7 +36,7 @@ switch measure
     case 'xWave_orthogonal'
         index_z = round(kgrid.Nz/2);
         start_index_y = kgrid.Ny/2 - round(transducer.size_y/2) + 1;
-        sensor.mask(x_offset, start_index_y:start_index_y + transducer.size_y,...
+        sensor.mask(x_offset:end, start_index_y:start_index_y + transducer.size_y,...
             index_z) = 1;     
         sensor.record={'p_max'};
 

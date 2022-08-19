@@ -1,5 +1,5 @@
 clear all
-measure = 'xAM';
+measure = 'xWave_orthogonal';
 load(strcat('/Users/akuliesh1/RCA_15MHz_for_Baptiste/Results/', measure, '.mat'))
 %%
 
